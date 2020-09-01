@@ -1,3 +1,21 @@
 html, body{
     font-family: 'Roboto', sans-serif;
 }
+
+tr:hover{
+    background: #646464;
+    color: white;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    text-align: center !important;
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}

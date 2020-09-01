@@ -48,7 +48,7 @@ class HomeComponent extends React.Component{
                 <Grid {...Grid_Option.contRowCenterCenter}>
 
                     <StretchDiviceLayout>
-                    <h1>USERS</h1>
+                    <h1>User Activities..</h1>
                     </StretchDiviceLayout>
 
                     <StretchDiviceLayout>
