@@ -10,8 +10,12 @@ import {DateTimeActivityWrapper} from './User-activities.styled';
 // 1: {start_time: "Mar 1 2020  11:11AM", end_time: "Mar 1 2020 2:00PM"}
 // 2: {start_time: "Mar 16 2020  5:33PM", end_time: "Mar 16 2020 8:02PM"}
 
-const getDateFormat = (filterDate = "") =>{
-    let newDate = filterDate ? new Date(filterDate) : new Date();
+const getDateFormat = (filterDate = "*") =>{
+    if(filterDate == "*"){
+        return "*"
+    }
+
+    let newDate = new Date(filterDate)
     return newDate.toISOString().split('T')[0]
 }
 
@@ -27,7 +31,6 @@ const UserActivitiesComponent = (props) =>{
         let meredian = actDate.includes("AM") ? "AM" : "PM";
         actDate = actDate.replace(meredian, "")
         const newActiDate = new Date(actDate.substr(0, actDate.length - 2));
-        console.log("Parsing Date ", actDate);
         return getDateFormat(newActiDate);
     }
 
@@ -42,7 +45,7 @@ const UserActivitiesComponent = (props) =>{
             <>
             {
                 user.data.activity_periods.map(activity =>
-                    parseUserActivityDate(activity.start_time) === filterDate && <h4>{activity.start_time} - {activity.end_time}</h4>
+                    filterDate == "*" || parseUserActivityDate(activity.start_time) === filterDate ? <h4>{activity.start_time} - {activity.end_time}</h4> : ''
                 )
             }
             </>
