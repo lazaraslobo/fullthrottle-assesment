@@ -10,32 +10,38 @@ import {DateTimeActivityWrapper} from './User-activities.styled';
 // 1: {start_time: "Mar 1 2020  11:11AM", end_time: "Mar 1 2020 2:00PM"}
 // 2: {start_time: "Mar 16 2020  5:33PM", end_time: "Mar 16 2020 8:02PM"}
 
-const getDateFormat = (filterDate = "*") =>{
-    if(filterDate == "*"){
-        return "*"
-    }
-
-    let newDate = new Date(filterDate)
-    return newDate.toISOString().split('T')[0]
-}
 
 const UserActivitiesComponent = (props) =>{
     const [user, setData] = useState(props);
+
+    const getDateFormat = (filterDate = "*") =>{
+        if(filterDate == "*"){
+            return "*"
+        }
+    
+        let newDate = new Date(filterDate);
+        newDate.toLocaleString('en-US', { timeZone: user.tz });
+        return newDate.toString().split('T')[0]
+    }
+
     const [filterDate, setFilterDate] = useState(getDateFormat());
+
     
     const setDateRange = (filterDate) =>{
         setFilterDate(getDateFormat(filterDate));
     }
 
-    const parseUserActivityDate = (actDate) =>{
-        let meredian = actDate.includes("AM") ? "AM" : "PM";
-        actDate = actDate.replace(meredian, "")
-        const newActiDate = new Date(actDate.substr(0, actDate.length - 2));
-        return getDateFormat(newActiDate);
+    const parseUserActivityDate = (actObj, incomingDate) =>{
+        let splitDate = incomingDate.split(" ");
+        splitDate = splitDate.splice(0, splitDate.length-1).join(" ");
+        const newActiDate = new Date(splitDate);
+        let dateFormatted = getDateFormat(newActiDate);
+        return dateFormatted;
     }
 
     return (
-        <Grid {...Grid_Option.contRowCenterCenter}>
+        <DateTimeActivityWrapper>
+            <Grid {...Grid_Option.contRowCenterCenter}>
             <Grid item xs={8}>
                 <h4>{user.data.real_name}</h4>
             </Grid>
@@ -43,15 +49,40 @@ const UserActivitiesComponent = (props) =>{
                 <input type="date" placeholder="Filter Date" onChange={ev => setDateRange(ev.target.value)}/>
             </Grid>
             <>
-            {
-                user.data.activity_periods.map(activity =>
-                    filterDate == "*" || parseUserActivityDate(activity.start_time) === filterDate ? <h4>{activity.start_time} - {activity.end_time}</h4> : ''
-                )
-            }
+            <table>
+                <thead>
+                    <tr>
+                    <th>#</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        user.data.activity_periods.map((activity, index)=>{
+                            let dateOnly = filterDate.indexOf(":") - 2;
+                            dateOnly = filterDate.substr(0, dateOnly);
+                            if(filterDate == "*" || parseUserActivityDate(activity, activity.start_time).includes(dateOnly)){
+                                return (
+                                <tr key={index}>
+                                    <td>{index+1}</td>
+                                    <td>
+                                        {activity.start_time}
+                                    </td>
+                                    <td>
+                                        {activity.end_time}
+                                    </td>
+                                </tr> )
+                            }
+                        })
+                    }
+                </tbody>
+            </table>
             </>
             <Grid item xs={12}>
             </Grid>
         </Grid>
+        </DateTimeActivityWrapper>
     )
 }
 
