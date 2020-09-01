@@ -13,3 +13,18 @@ export const TableWrapper = Styled.div`
         padding: 8px;
     }
 `;
+
+export const TableButton = Styled.button`
+    padding: 7px;
+    /* width: 5em; */
+    border: none;
+    background: #6eb06e;
+    color: white;
+    border-radius: 5px;
+    outline:none;
+    cursor : pointer;
+
+    :hover{
+        background : grey;
+    }
+`;

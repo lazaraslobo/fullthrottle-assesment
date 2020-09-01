@@ -16,19 +16,28 @@ const StretchDiviceLayout = (props) =>{
 class HomeComponent extends React.Component{
     constructor(){
         super();
+        this.state = {
+            isApiData   : false,
+            data        :   []
+        }
     }
 
+    componentDidMount(){
+        let MockUsers = FetchMockApi();
+        this.setState(MockUsers);
+    }
+    
     render(){
         return (
             <Wrapper>
                 <Grid {...Grid_Option.contRowCenterCenter}>
 
                     <StretchDiviceLayout>
-                        <h1>USERS</h1>
+                    <h1>USERS</h1>
                     </StretchDiviceLayout>
 
                     <StretchDiviceLayout>
-                        <Table />
+                        <Table data={this.state.data}/>
                     </StretchDiviceLayout>
                 </Grid>
             </Wrapper>
