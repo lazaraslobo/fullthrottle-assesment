@@ -24,8 +24,10 @@ const UserActivitiesComponent = (props) =>{
     }
 
     const parseUserActivityDate = (actDate) =>{
+        let meredian = actDate.includes("AM") ? "AM" : "PM";
+        actDate = actDate.replace(meredian, "")
         const newActiDate = new Date(actDate.substr(0, actDate.length - 2));
-        console.log("Parsing Date ", getDateFormat(newActiDate), filterDate);
+        console.log("Parsing Date ", actDate);
         return getDateFormat(newActiDate);
     }
 
@@ -39,11 +41,9 @@ const UserActivitiesComponent = (props) =>{
             </Grid>
             <>
             {
-                user.data.activity_periods.map((activity, index) =>{
-                    if(parseUserActivityDate(activity.start_time) === filterDate){
-                        return <h4>{activity.start_time} - {activity.end_time}</h4>
-                    }
-                })
+                user.data.activity_periods.map(activity =>
+                    parseUserActivityDate(activity.start_time) === filterDate && <h4>{activity.start_time} - {activity.end_time}</h4>
+                )
             }
             </>
             <Grid item xs={12}>
