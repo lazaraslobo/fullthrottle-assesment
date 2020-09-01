@@ -3,6 +3,8 @@ import {Wrapper} from './Home.styled';
 import {FetchMockApi} from '../../core/api/api-service';
 import {Grid, Grid_Option} from '../Grid';
 import Table from '../Re-Usables/Table';
+import {SimpleDialog} from '../Re-Usables/Modal';
+import UserActivitiesComponent from '../Re-Usables/User-Activities';
 
 const StretchDiviceLayout = (props) =>{
     const {children} = props;
@@ -17,14 +19,27 @@ class HomeComponent extends React.Component{
     constructor(){
         super();
         this.state = {
-            isApiData   : false,
-            data        :   []
+            isApiData   :   false,
+            data        :   [],
+            modal       :   {
+                isModalOpen         : false,
+                selectedUserData    :  {}
+            }
         }
     }
 
     componentDidMount(){
         let MockUsers = FetchMockApi();
-        this.setState(MockUsers);
+        this.setState({...this.state, ...MockUsers});
+    }
+
+    setModalClose = () =>{
+        this.setState({...this.state, modal : {isModalOpen : false}})
+    }
+
+    openModalWithData = (UData) =>{
+        let extendState = {...this.state, modal : {isModalOpen : true, selectedUserData : UData}}
+        this.setState(extendState)
     }
     
     render(){
@@ -37,7 +52,13 @@ class HomeComponent extends React.Component{
                     </StretchDiviceLayout>
 
                     <StretchDiviceLayout>
-                        <Table data={this.state.data}/>
+                        <Table data={this.state.data} onClickRow={this.openModalWithData}/>
+                    </StretchDiviceLayout>
+
+                    <StretchDiviceLayout>
+                        <SimpleDialog isOpen={this.state.modal.isModalOpen} onClose={this.setModalClose}>
+                            <UserActivitiesComponent />
+                        </SimpleDialog>
                     </StretchDiviceLayout>
                 </Grid>
             </Wrapper>

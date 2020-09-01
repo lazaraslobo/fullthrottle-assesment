@@ -24,22 +24,22 @@ import {TableWrapper, TableButton} from './Table.styled';
 
 
 const Table = (props) =>{
-    const {data} = props || [];
+    const {data, onClickRow} = props || [];
     return (
         <TableWrapper>
             <table>
                 <thead>
                     <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Time Zone</th>
-                    <th></th>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Time Zone</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         data.map((eachRow, index) =>
-                            <tr key={index}>
+                            <tr key={index} onClick={()=>onClickRow(eachRow)}>
                                 <td>{index+1}</td>
                                 <td>{eachRow.real_name}</td>
                                 <td>{eachRow.tz}</td>
