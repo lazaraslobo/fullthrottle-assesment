@@ -57,7 +57,7 @@ class HomeComponent extends React.Component{
 
                     <StretchDiviceLayout>
                         <SimpleDialog isOpen={this.state.modal.isModalOpen} onClose={this.setModalClose}>
-                            <UserActivitiesComponent />
+                            <UserActivitiesComponent data={this.state.modal.selectedUserData}/>
                         </SimpleDialog>
                     </StretchDiviceLayout>
                 </Grid>

@@ -15,6 +15,10 @@ const MOCK_USERS = {
                 {
                     "start_time": "Mar 16 2020  5:33PM",
                     "end_time": "Mar 16 2020 8:02PM"
+                },
+                {
+                    "start_time": "Sept 1 2020  5:33",
+                    "end_time": "Mar 16 2020 8:02PM"
                 }
             ]
         },
