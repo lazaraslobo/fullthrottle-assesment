@@ -7,3 +7,10 @@ table{
 }
 
 `;
+
+export const ResetdateRangeBtn = Styled.button`
+    border: none;
+    padding: 5px;
+    background: #b9b9ff;
+    color: white;
+`

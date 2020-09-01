@@ -1,15 +1,6 @@
 import React, {useState} from 'react';
 import {Grid, Grid_Option} from '../../Grid';
-import {DateTimeActivityWrapper} from './User-activities.styled';
-
-// id: "W012A3CDE"
-// real_name: "Egon Spengler"
-// tz: "America/Los_Angeles"
-// activity_periods: Array(3)
-// 0: {start_time: "Feb 1 2020  1:33PM", end_time: "Feb 1 2020 1:54PM"}
-// 1: {start_time: "Mar 1 2020  11:11AM", end_time: "Mar 1 2020 2:00PM"}
-// 2: {start_time: "Mar 16 2020  5:33PM", end_time: "Mar 16 2020 8:02PM"}
-
+import {DateTimeActivityWrapper, ResetdateRangeBtn} from './User-activities.styled';
 
 const UserActivitiesComponent = (props) =>{
     const [user, setData] = useState(props);
@@ -42,11 +33,12 @@ const UserActivitiesComponent = (props) =>{
     return (
         <DateTimeActivityWrapper>
             <Grid {...Grid_Option.contRowCenterCenter}>
-            <Grid item xs={8}>
+            <Grid item xs={7}>
                 <h4>{user.data.real_name}</h4>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={5}>
                 <input type="date" placeholder="Filter Date" onChange={ev => setDateRange(ev.target.value)}/>
+                <ResetdateRangeBtn onClick={()=>setFilterDate("*")}>Reset</ResetdateRangeBtn>
             </Grid>
             <>
             <table>
@@ -64,15 +56,15 @@ const UserActivitiesComponent = (props) =>{
                             dateOnly = filterDate.substr(0, dateOnly);
                             if(filterDate == "*" || parseUserActivityDate(activity, activity.start_time).includes(dateOnly)){
                                 return (
-                                <tr key={index}>
-                                    <td>{index+1}</td>
-                                    <td>
-                                        {activity.start_time}
-                                    </td>
-                                    <td>
-                                        {activity.end_time}
-                                    </td>
-                                </tr> )
+                                    <tr key={index}>
+                                        <td>{index+1}</td>
+                                        <td>
+                                            {activity.start_time}
+                                        </td>
+                                        <td>
+                                            {activity.end_time}
+                                        </td>
+                                    </tr> )
                             }
                         })
                     }
